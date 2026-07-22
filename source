@@ -222,167 +222,6 @@ local function GetDropdownOverlay()
     return DropdownOverlay
 end
 
-local Section = setmetatable({}, Component)
-Section.__index = Section
-Section.Class = "Section"
-
-function Section.new(parent, config, theme)
-    local self = setmetatable(Component.new(theme), Section)
-    self.Parent = parent
-    self.Saveable = false
-    self.TitleText = config.Title or config.Text or "Section"
-    self.Side = config.Side or "Left"
-
-    self.Container = Instance.new("Frame")
-    self.Container.Size = UDim2.new(0.5, -8, 0, 0)
-    self.Container.BackgroundTransparency = 1
-    self.Container.Parent = parent
-    self.Container.AutomaticSize = Enum.AutomaticSize.Y
-
-    self.Title = Instance.new("TextLabel")
-    self.Title.Size = UDim2.new(1, 0, 0, 22)
-    self.Title.Position = UDim2.new(0, 4, 0, 0)
-    self.Title.BackgroundTransparency = 1
-    self.Title.Text = self.TitleText
-    self.Title.TextColor3 = self.Theme.TextDim
-    self.Title.TextSize = 12
-    self.Title.Font = Enum.Font.SourceSansBold
-    self.Title.TextXAlignment = Enum.TextXAlignment.Left
-    self.Title.TextYAlignment = Enum.TextYAlignment.Center
-    self.Title.Parent = self.Container
-
-    self.Line = Instance.new("Frame")
-    self.Line.Size = UDim2.new(1, -80, 0, 1)
-    self.Line.Position = UDim2.new(0, 80, 0, 10)
-    self.Line.BackgroundColor3 = self.Theme.Border
-    self.Line.BackgroundTransparency = 0.5
-    self.Line.BorderSizePixel = 0
-    self.Line.Parent = self.Container
-
-    self.Elements = Instance.new("Frame")
-    self.Elements.Size = UDim2.new(1, 0, 0, 0)
-    self.Elements.Position = UDim2.new(0, 4, 0, 22)
-    self.Elements.BackgroundTransparency = 1
-    self.Elements.Parent = self.Container
-    self.Elements.AutomaticSize = Enum.AutomaticSize.Y
-
-    self.Layout = Instance.new("UIListLayout")
-    self.Layout.Padding = UDim.new(0, 2)
-    self.Layout.FillDirection = Enum.FillDirection.Vertical
-    self.Layout.SortOrder = Enum.SortOrder.LayoutOrder
-    self.Layout.Parent = self.Elements
-
-    return self
-end
-
-function Section:UpdateTheme(theme)
-    if self.Destroyed then return end
-    self.Theme = theme
-    self.Title.TextColor3 = self.Theme.TextDim
-    self.Line.BackgroundColor3 = self.Theme.Border
-end
-
-function Section:AddToggle(config)
-    local toggle = Toggle.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, toggle)
-    return toggle
-end
-
-function Section:AddSlider(config)
-    local slider = Slider.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, slider)
-    return slider
-end
-
-function Section:AddDropdown(config)
-    local dropdown = Dropdown.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, dropdown)
-    return dropdown
-end
-
-function Section:AddKeyPicker(config)
-    local keybind = Keybind.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, keybind)
-    return keybind
-end
-
-function Section:AddColorPicker(config)
-    local picker = ColorPicker.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, picker)
-    return picker
-end
-
-function Section:AddButton(config)
-    local button = Button.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, button)
-    return button
-end
-
-function Section:AddTextbox(config)
-    local textbox = Textbox.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, textbox)
-    return textbox
-end
-
-function Section:GetName()
-    return self.TitleText
-end
-
-function Section:Destroy()
-    if self.Destroyed then return end
-    Component.Destroy(self)
-end
-
-local Label = setmetatable({}, Component)
-Label.__index = Label
-Label.Class = "Label"
-
-function Label.new(parent, text, color, size, theme)
-    local self = setmetatable(Component.new(theme), Label)
-    self.Parent = parent
-    self.Saveable = false
-    self.LabelText = text
-
-    self.Container = Instance.new("Frame")
-    self.Container.Size = UDim2.new(1, 0, 0, 22)
-    self.Container.BackgroundTransparency = 1
-    self.Container.Parent = parent
-
-    self.Label = Instance.new("TextLabel")
-    self.Label.Size = UDim2.new(1, -16, 1, 0)
-    self.Label.Position = UDim2.new(0, 8, 0, 0)
-    self.Label.BackgroundTransparency = 1
-    self.Label.Text = text
-    self.Label.TextColor3 = color or self.Theme.TextDim
-    self.Label.TextSize = size or 12
-    self.Label.Font = Enum.Font.SourceSans
-    self.Label.TextXAlignment = Enum.TextXAlignment.Left
-    self.Label.TextYAlignment = Enum.TextYAlignment.Center
-    self.Label.Parent = self.Container
-    return self
-end
-
-function Label:UpdateTheme(theme)
-    if self.Destroyed then return end
-    self.Theme = theme
-    self.Label.TextColor3 = self.Theme.TextDim
-end
-
-function Label:SetText(text)
-    if self.Destroyed then return end
-    self.LabelText = text
-    self.Label.Text = text
-end
-
-function Label:GetName()
-    return self.LabelText
-end
-
-function Label:Destroy()
-    if self.Destroyed then return end
-    Component.Destroy(self)
-end
-
 local Toggle = setmetatable({}, Component)
 Toggle.__index = Toggle
 Toggle.Class = "Toggle"
@@ -1222,6 +1061,167 @@ function Keybind:Destroy()
     Component.Destroy(self)
 end
 
+local Section = setmetatable({}, Component)
+Section.__index = Section
+Section.Class = "Section"
+
+function Section.new(parent, config, theme)
+    local self = setmetatable(Component.new(theme), Section)
+    self.Parent = parent
+    self.Saveable = false
+    self.TitleText = config.Title or config.Text or "Section"
+    self.Side = config.Side or "Left"
+
+    self.Container = Instance.new("Frame")
+    self.Container.Size = UDim2.new(0.5, -8, 0, 0)
+    self.Container.BackgroundTransparency = 1
+    self.Container.Parent = parent
+    self.Container.AutomaticSize = Enum.AutomaticSize.Y
+
+    self.Title = Instance.new("TextLabel")
+    self.Title.Size = UDim2.new(1, 0, 0, 22)
+    self.Title.Position = UDim2.new(0, 4, 0, 0)
+    self.Title.BackgroundTransparency = 1
+    self.Title.Text = self.TitleText
+    self.Title.TextColor3 = self.Theme.TextDim
+    self.Title.TextSize = 12
+    self.Title.Font = Enum.Font.SourceSansBold
+    self.Title.TextXAlignment = Enum.TextXAlignment.Left
+    self.Title.TextYAlignment = Enum.TextYAlignment.Center
+    self.Title.Parent = self.Container
+
+    self.Line = Instance.new("Frame")
+    self.Line.Size = UDim2.new(1, -80, 0, 1)
+    self.Line.Position = UDim2.new(0, 80, 0, 10)
+    self.Line.BackgroundColor3 = self.Theme.Border
+    self.Line.BackgroundTransparency = 0.5
+    self.Line.BorderSizePixel = 0
+    self.Line.Parent = self.Container
+
+    self.Elements = Instance.new("Frame")
+    self.Elements.Size = UDim2.new(1, 0, 0, 0)
+    self.Elements.Position = UDim2.new(0, 4, 0, 22)
+    self.Elements.BackgroundTransparency = 1
+    self.Elements.Parent = self.Container
+    self.Elements.AutomaticSize = Enum.AutomaticSize.Y
+
+    self.Layout = Instance.new("UIListLayout")
+    self.Layout.Padding = UDim.new(0, 2)
+    self.Layout.FillDirection = Enum.FillDirection.Vertical
+    self.Layout.SortOrder = Enum.SortOrder.LayoutOrder
+    self.Layout.Parent = self.Elements
+
+    return self
+end
+
+function Section:UpdateTheme(theme)
+    if self.Destroyed then return end
+    self.Theme = theme
+    self.Title.TextColor3 = self.Theme.TextDim
+    self.Line.BackgroundColor3 = self.Theme.Border
+end
+
+function Section:AddToggle(config)
+    local toggle = Toggle.new(self.Elements, config, self.Theme)
+    table.insert(self.Parent.Components, toggle)
+    return toggle
+end
+
+function Section:AddSlider(config)
+    local slider = Slider.new(self.Elements, config, self.Theme)
+    table.insert(self.Parent.Components, slider)
+    return slider
+end
+
+function Section:AddDropdown(config)
+    local dropdown = Dropdown.new(self.Elements, config, self.Theme)
+    table.insert(self.Parent.Components, dropdown)
+    return dropdown
+end
+
+function Section:AddKeyPicker(config)
+    local keybind = Keybind.new(self.Elements, config, self.Theme)
+    table.insert(self.Parent.Components, keybind)
+    return keybind
+end
+
+function Section:AddColorPicker(config)
+    local picker = ColorPicker.new(self.Elements, config, self.Theme)
+    table.insert(self.Parent.Components, picker)
+    return picker
+end
+
+function Section:AddButton(config)
+    local button = Button.new(self.Elements, config, self.Theme)
+    table.insert(self.Parent.Components, button)
+    return button
+end
+
+function Section:AddTextbox(config)
+    local textbox = Textbox.new(self.Elements, config, self.Theme)
+    table.insert(self.Parent.Components, textbox)
+    return textbox
+end
+
+function Section:GetName()
+    return self.TitleText
+end
+
+function Section:Destroy()
+    if self.Destroyed then return end
+    Component.Destroy(self)
+end
+
+local Label = setmetatable({}, Component)
+Label.__index = Label
+Label.Class = "Label"
+
+function Label.new(parent, text, color, size, theme)
+    local self = setmetatable(Component.new(theme), Label)
+    self.Parent = parent
+    self.Saveable = false
+    self.LabelText = text
+
+    self.Container = Instance.new("Frame")
+    self.Container.Size = UDim2.new(1, 0, 0, 22)
+    self.Container.BackgroundTransparency = 1
+    self.Container.Parent = parent
+
+    self.Label = Instance.new("TextLabel")
+    self.Label.Size = UDim2.new(1, -16, 1, 0)
+    self.Label.Position = UDim2.new(0, 8, 0, 0)
+    self.Label.BackgroundTransparency = 1
+    self.Label.Text = text
+    self.Label.TextColor3 = color or self.Theme.TextDim
+    self.Label.TextSize = size or 12
+    self.Label.Font = Enum.Font.SourceSans
+    self.Label.TextXAlignment = Enum.TextXAlignment.Left
+    self.Label.TextYAlignment = Enum.TextYAlignment.Center
+    self.Label.Parent = self.Container
+    return self
+end
+
+function Label:UpdateTheme(theme)
+    if self.Destroyed then return end
+    self.Theme = theme
+    self.Label.TextColor3 = self.Theme.TextDim
+end
+
+function Label:SetText(text)
+    if self.Destroyed then return end
+    self.LabelText = text
+    self.Label.Text = text
+end
+
+function Label:GetName()
+    return self.LabelText
+end
+
+function Label:Destroy()
+    if self.Destroyed then return end
+    Component.Destroy(self)
+end
+
 local Tab = {}
 Tab.__index = Tab
 
@@ -2011,7 +2011,7 @@ function SpectraLibrary.new()
     local self = setmetatable({}, SpectraLibrary)
     self.ToggleKey = Enum.KeyCode.RightShift
     self.CoreConnections = {}
-    self.Windows = {}  -- <-- ВАЖНО: инициализируем Windows
+    self.Windows = {}
 
     local conn = UserInputService.InputBegan:Connect(function(input, gp)
         if gp then return end
