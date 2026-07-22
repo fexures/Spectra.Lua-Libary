@@ -196,6 +196,17 @@ function Component:UpdateTheme(theme)
     self.Theme = theme
 end
 
+local function FindLibrary(parent)
+    local current = parent
+    while current do
+        if current.Library then
+            return current.Library
+        end
+        current = current.Parent
+    end
+    return nil
+end
+
 local DropdownOverlay = nil
 local ActiveDropdowns = {}
 
@@ -237,12 +248,9 @@ function Toggle.new(parent, config, theme)
 
     if config.Flag then
         self.Flag = config.Flag
-        local libParent = parent
-        while libParent and not libParent.Library do
-            libParent = libParent.Parent
-        end
-        if libParent and libParent.Library then
-            libParent.Library.Flags[config.Flag] = self
+        local library = FindLibrary(parent)
+        if library then
+            library.Flags[config.Flag] = self
         end
     end
 
@@ -375,12 +383,9 @@ function Slider.new(parent, config, theme)
 
     if config.Flag then
         self.Flag = config.Flag
-        local libParent = parent
-        while libParent and not libParent.Library do
-            libParent = libParent.Parent
-        end
-        if libParent and libParent.Library then
-            libParent.Library.Flags[config.Flag] = self
+        local library = FindLibrary(parent)
+        if library then
+            library.Flags[config.Flag] = self
         end
     end
 
@@ -521,12 +526,9 @@ function Button.new(parent, config, theme)
 
     if config.Flag then
         self.Flag = config.Flag
-        local libParent = parent
-        while libParent and not libParent.Library do
-            libParent = libParent.Parent
-        end
-        if libParent and libParent.Library then
-            libParent.Library.Flags[config.Flag] = self
+        local library = FindLibrary(parent)
+        if library then
+            library.Flags[config.Flag] = self
         end
     end
 
@@ -598,12 +600,9 @@ function Textbox.new(parent, config, theme)
 
     if config.Flag then
         self.Flag = config.Flag
-        local libParent = parent
-        while libParent and not libParent.Library do
-            libParent = libParent.Parent
-        end
-        if libParent and libParent.Library then
-            libParent.Library.Flags[config.Flag] = self
+        local library = FindLibrary(parent)
+        if library then
+            library.Flags[config.Flag] = self
         end
     end
 
@@ -708,12 +707,9 @@ function ColorPicker.new(parent, config, theme)
 
     if config.Flag then
         self.Flag = config.Flag
-        local libParent = parent
-        while libParent and not libParent.Library do
-            libParent = libParent.Parent
-        end
-        if libParent and libParent.Library then
-            libParent.Library.Flags[config.Flag] = self
+        local library = FindLibrary(parent)
+        if library then
+            library.Flags[config.Flag] = self
         end
     end
 
@@ -803,12 +799,9 @@ function Dropdown.new(parent, config, theme)
 
     if config.Flag then
         self.Flag = config.Flag
-        local libParent = parent
-        while libParent and not libParent.Library do
-            libParent = libParent.Parent
-        end
-        if libParent and libParent.Library then
-            libParent.Library.Flags[config.Flag] = self
+        local library = FindLibrary(parent)
+        if library then
+            library.Flags[config.Flag] = self
         end
     end
 
@@ -989,12 +982,9 @@ function Keybind.new(parent, config, theme)
 
     if config.Flag then
         self.Flag = config.Flag
-        local libParent = parent
-        while libParent and not libParent.Library do
-            libParent = libParent.Parent
-        end
-        if libParent and libParent.Library then
-            libParent.Library.Flags[config.Flag] = self
+        local library = FindLibrary(parent)
+        if library then
+            library.Flags[config.Flag] = self
         end
     end
 
