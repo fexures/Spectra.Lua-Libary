@@ -236,7 +236,14 @@ function Toggle.new(parent, config, theme)
     self.Mode = config.Mode or "Toggle"
 
     if config.Flag then
-        self:SetFlag(config.Flag)
+        self.Flag = config.Flag
+        local libParent = parent
+        while libParent and not libParent.Library do
+            libParent = libParent.Parent
+        end
+        if libParent and libParent.Library then
+            libParent.Library.Flags[config.Flag] = self
+        end
     end
 
     self.Container = Instance.new("Frame")
@@ -367,7 +374,14 @@ function Slider.new(parent, config, theme)
     self.Saveable = true
 
     if config.Flag then
-        self:SetFlag(config.Flag)
+        self.Flag = config.Flag
+        local libParent = parent
+        while libParent and not libParent.Library do
+            libParent = libParent.Parent
+        end
+        if libParent and libParent.Library then
+            libParent.Library.Flags[config.Flag] = self
+        end
     end
 
     self.Container = Instance.new("Frame")
@@ -505,6 +519,17 @@ function Button.new(parent, config, theme)
     self.ButtonColor = config.Color or self.Theme.Accent
     self.Saveable = false
 
+    if config.Flag then
+        self.Flag = config.Flag
+        local libParent = parent
+        while libParent and not libParent.Library do
+            libParent = libParent.Parent
+        end
+        if libParent and libParent.Library then
+            libParent.Library.Flags[config.Flag] = self
+        end
+    end
+
     self.Container = Instance.new("Frame")
     self.Container.Size = UDim2.new(1, -8, 0, 28)
     self.Container.Position = UDim2.new(0, 4, 0, 0)
@@ -572,7 +597,14 @@ function Textbox.new(parent, config, theme)
     self.Saveable = true
 
     if config.Flag then
-        self:SetFlag(config.Flag)
+        self.Flag = config.Flag
+        local libParent = parent
+        while libParent and not libParent.Library do
+            libParent = libParent.Parent
+        end
+        if libParent and libParent.Library then
+            libParent.Library.Flags[config.Flag] = self
+        end
     end
 
     self.Container = Instance.new("Frame")
@@ -675,7 +707,14 @@ function ColorPicker.new(parent, config, theme)
     self.Saveable = true
 
     if config.Flag then
-        self:SetFlag(config.Flag)
+        self.Flag = config.Flag
+        local libParent = parent
+        while libParent and not libParent.Library do
+            libParent = libParent.Parent
+        end
+        if libParent and libParent.Library then
+            libParent.Library.Flags[config.Flag] = self
+        end
     end
 
     self.Container = Instance.new("Frame")
@@ -763,7 +802,14 @@ function Dropdown.new(parent, config, theme)
     table.insert(ActiveDropdowns, self)
 
     if config.Flag then
-        self:SetFlag(config.Flag)
+        self.Flag = config.Flag
+        local libParent = parent
+        while libParent and not libParent.Library do
+            libParent = libParent.Parent
+        end
+        if libParent and libParent.Library then
+            libParent.Library.Flags[config.Flag] = self
+        end
     end
 
     self.Container = Instance.new("Frame")
@@ -942,7 +988,14 @@ function Keybind.new(parent, config, theme)
     self.Saveable = true
 
     if config.Flag then
-        self:SetFlag(config.Flag)
+        self.Flag = config.Flag
+        local libParent = parent
+        while libParent and not libParent.Library do
+            libParent = libParent.Parent
+        end
+        if libParent and libParent.Library then
+            libParent.Library.Flags[config.Flag] = self
+        end
     end
 
     self.Container = Instance.new("Frame")
