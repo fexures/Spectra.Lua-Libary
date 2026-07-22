@@ -196,10 +196,6 @@ function Component:UpdateTheme(theme)
     self.Theme = theme
 end
 
--- ========================================
--- ИСПРАВЛЕНИЕ: Dropdown.GetOverlay() теперь часть библиотеки
--- ========================================
-
 local DropdownOverlay = nil
 local ActiveDropdowns = {}
 
@@ -910,10 +906,6 @@ function ColorPicker:Destroy()
     if self.Destroyed then return end
     Component.Destroy(self)
 end
-
--- ========================================
--- ИСПРАВЛЕНИЕ: Dropdown использует локальную функцию GetDropdownOverlay
--- ========================================
 
 local Dropdown = setmetatable({}, Component)
 Dropdown.__index = Dropdown
@@ -2019,6 +2011,7 @@ function SpectraLibrary.new()
     local self = setmetatable({}, SpectraLibrary)
     self.ToggleKey = Enum.KeyCode.RightShift
     self.CoreConnections = {}
+    self.Windows = {}  -- <-- ВАЖНО: инициализируем Windows
 
     local conn = UserInputService.InputBegan:Connect(function(input, gp)
         if gp then return end
@@ -2032,7 +2025,6 @@ function SpectraLibrary.new()
     end)
     table.insert(self.CoreConnections, conn)
 
-    self.Windows = {}
     return self
 end
 
@@ -2043,6 +2035,9 @@ end
 function SpectraLibrary:CreateWindow(config)
     local window = WindowClass.new(self)
     window:CreateWindow(config)
+    if not self.Windows then
+        self.Windows = {}
+    end
     table.insert(self.Windows, window)
     return window
 end
@@ -2053,7 +2048,7 @@ function SpectraLibrary:Destroy()
     end
     self.CoreConnections = {}
 
-    for _, window in pairs(self.Windows) do
+    for _, window in pairs(self.Windows or {}) do
         if window and not window.IsDestroyed then
             window:Destroy()
         end
