@@ -2131,6 +2131,7 @@ function SpectraLibrary:Destroy()
     self.Windows = {}
 end
 
+-- ГЛОБАЛЬНЫЙ INPUT MANAGER (ДОЛЖЕН БЫТЬ ПОСЛЕ ВСЕХ КОМПОНЕНТОВ)
 local InputManager = {
     ActiveSliders = {},
     ActiveKeybinds = {},
