@@ -196,13 +196,22 @@ function Component:UpdateTheme(theme)
     self.Theme = theme
 end
 
--- ИСПРАВЛЕННАЯ ФУНКЦИЯ FindLibrary
 local function FindLibrary(parent)
     local current = parent
     while current do
-        -- Проверяем, что current это таблица и у нее есть свойство Library
         if type(current) == "table" and current.Library then
             return current.Library
+        end
+        current = current.Parent
+    end
+    return nil
+end
+
+local function FindTab(parent)
+    local current = parent
+    while current do
+        if type(current) == "table" and current.Components then
+            return current
         end
         current = current.Parent
     end
@@ -1168,43 +1177,64 @@ end
 
 function Section:AddToggle(config)
     local toggle = Toggle.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, toggle)
+    local tab = FindTab(self)
+    if tab and tab.Components then
+        table.insert(tab.Components, toggle)
+    end
     return toggle
 end
 
 function Section:AddSlider(config)
     local slider = Slider.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, slider)
+    local tab = FindTab(self)
+    if tab and tab.Components then
+        table.insert(tab.Components, slider)
+    end
     return slider
 end
 
 function Section:AddDropdown(config)
     local dropdown = Dropdown.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, dropdown)
+    local tab = FindTab(self)
+    if tab and tab.Components then
+        table.insert(tab.Components, dropdown)
+    end
     return dropdown
 end
 
 function Section:AddKeyPicker(config)
     local keybind = Keybind.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, keybind)
+    local tab = FindTab(self)
+    if tab and tab.Components then
+        table.insert(tab.Components, keybind)
+    end
     return keybind
 end
 
 function Section:AddColorPicker(config)
     local picker = ColorPicker.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, picker)
+    local tab = FindTab(self)
+    if tab and tab.Components then
+        table.insert(tab.Components, picker)
+    end
     return picker
 end
 
 function Section:AddButton(config)
     local button = Button.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, button)
+    local tab = FindTab(self)
+    if tab and tab.Components then
+        table.insert(tab.Components, button)
+    end
     return button
 end
 
 function Section:AddTextbox(config)
     local textbox = Textbox.new(self.Elements, config, self.Theme)
-    table.insert(self.Parent.Components, textbox)
+    local tab = FindTab(self)
+    if tab and tab.Components then
+        table.insert(tab.Components, textbox)
+    end
     return textbox
 end
 
