@@ -196,10 +196,12 @@ function Component:UpdateTheme(theme)
     self.Theme = theme
 end
 
+-- ИСПРАВЛЕННАЯ ФУНКЦИЯ FindLibrary
 local function FindLibrary(parent)
     local current = parent
     while current do
-        if current.Library then
+        -- Проверяем, что current это таблица и у нее есть свойство Library
+        if type(current) == "table" and current.Library then
             return current.Library
         end
         current = current.Parent
